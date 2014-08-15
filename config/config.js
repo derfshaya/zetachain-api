@@ -46,7 +46,7 @@ switch (process.env.NODE_ENV) {
     break;
 }
 
-var network = process.env.INSIGHT_NETWORK || 'livenet';
+var network = process.env.INSIGHT_NETWORK || 'testnet';
 
 var dataDir = process.env.ZETACOIND_DATADIR;
 var isWin = /^win/.test(process.platform);
