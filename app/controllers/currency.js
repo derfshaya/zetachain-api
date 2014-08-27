@@ -5,7 +5,9 @@ var config = require('../../config/config');
 // Set the initial vars
 var timestamp = +new Date(),
     delay = config.currencyRefresh * 60000,
+    zetaRate = 0;
     bitstampRate = 0;
+    conversionRate = 0;
 
 exports.index = function(req, res) {
 
@@ -46,15 +48,20 @@ exports.index = function(req, res) {
     _request('https://www.bitstamp.net/api/ticker/', function(err, data) {
       if (!err) bitstampRate = parseFloat(JSON.parse(data).last);
 
+      _request('https://api.mintpal.com/v1/market/stats/ZET/BTC', function(err,data) {
+        if (!err) zetaRate = parseFloat(JSON.parse(data)[0].last_price);
+        conversionRate = bitstampRate * zetaRate;
+      });
+
       res.jsonp({
         status: 200,
-        data: { bitstamp: bitstampRate }
+        data: { bitstamp: conversionRate }
       });
     });
   } else {
     res.jsonp({
       status: 200,
-      data: { bitstamp: bitstampRate }
+      data: { bitstamp: conversionRate }
     });
   }
 };
