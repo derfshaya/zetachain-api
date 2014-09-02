@@ -1,13 +1,13 @@
-# *insight API*
+# *Zetachain API (Zetachain API)*
 
-*insight API* is an open-source bitcoin blockchain  REST
-and websocket API. Insight API runs in NodeJS and use LevelDB for storage. 
+*Zetachain API* is an open-source zetacoin blockchain  REST
+and websocket API. Zetachain API runs in NodeJS and use LevelDB for storage. Zetachain is forked from bitpay's [Insight API](http://github.com/bitpay/insight-api).
 
-*Insight API* allows to develop bitcoin related applications such as wallets that 
-require certain information from the blockchain that bitcoind does not provide.
+*Zetachain API* allows to develop zetacoin related applications such as wallets that
+require certain information from the blockchain that zetacoind does not provide.
 
-A blockchain explorer front-end have been developed to top of *Insight API*, it can
-be downloaded at [Github Insight Repository](https://github.com/bitpay/insight).
+A blockchain explorer front-end have been developed to top of *Zetachain API*, it can
+be downloaded at [Github Zetachain Repository](https://github.com/zbad405/zetachain).
 
 ## IMPORTANT: Upgrading from  v0.1 to v0.2
 In order to optimize some queries, the key-value layout in Level DB has been changed.
@@ -18,30 +18,30 @@ needs to run while *insight-api* is shut off. See details at: **Synchronization*
 ## IMPORTANT: v0.2 Caching schema
 
 In v0.2 a new cache schema has been introduced. Only information from transactions with
-INSIGHT_SAFE_CONFIRMATIONS+ settings will be cached (by default SAFE_CONFIRMATIONS=6). There 
+INSIGHT_SAFE_CONFIRMATIONS+ settings will be cached (by default SAFE_CONFIRMATIONS=6). There
 are 3 different caches:
- * nr. of confirmations 
+ * nr. of confirmations
  * transaction spent information
  * scriptPubKey for unspent transactions
 
 Cache data is only populated on request, i.e., only after accessing the required data for
-the first time, the information is cached, there is not pre-caching procedure.  To ignore 
+the first time, the information is cached, there is not pre-caching procedure.  To ignore
 cache by default, use INSIGHT_IGNORE_CACHE. Also, address related calls support `?noCache=1`
 to ignore the cache in a particular API request.
 
 ## Prerequisites
 
-* **bitcoind** - Download and Install [Bitcoin](http://bitcoin.org/en/download)
+* **zetacoind** - Download and Compile Zetacoin from source [zetacoin](https://github.com/zetacoin/zetacoin)
 
-*insight API* needs a *trusted* bitcoind node to run. *insight API* will connect to the node
+*Zetachain API* needs a *trusted* zetacoind node to run. *Zetachain API* will connect to the node
 thru the RPC API, Peer-to-peer protocol and will even read its raw .dat files for syncing.
 
-Configure bitcoind to listen to RPC calls and set `txindex` to true.
-The easiest way to do this is by copying `./etc/bitcoind/bitcoin.conf` to your
-bitcoin data directory (usually `"~/.bitcoin"` on Linux, `"%appdata%\Bitcoin\"` on Windows,
-or `"~/Library/Application Support/Bitcoin"` on Mac OS X).
+Configure zetacoind to listen to RPC calls and set `txindex` to true.
+The easiest way to do this is by copying `./etc/zetacoind/zetacoin.conf` to your
+zetacoin data directory (usually `"~/.zetacoin"` on Linux, `"%appdata%\zetacoin\"` on Windows,
+or `"~/Library/Application Support/zetacoin"` on Mac OS X).
 
-bitcoind must be running and must have finished downloading the blockchain **before** running *insight API*.
+zetacoind must be running and must have finished downloading the blockchain **before** running *Zetachain API*.
 
 
 * **Node.js v0.10.x** - Download and Install [Node.js](http://www.nodejs.org/download/).
@@ -51,9 +51,9 @@ bitcoind must be running and must have finished downloading the blockchain **bef
 ## Quick Install
   Check the Prerequisites section above before installing.
 
-  To install Insight API, clone the main repository:
+  To install Zetachain API, clone the main repository:
 
-    $ git clone https://github.com/bitpay/insight-api && cd insight-api
+    $ git clone https://github.com/zbad/zetachain-api && cd zetachain-api
 
   Install dependencies:
 
@@ -77,37 +77,37 @@ bitcoind must be running and must have finished downloading the blockchain **bef
 All configuration is specified in the [config](config/) folder, particularly the [config.js](config/config.js) file. There you can specify your application name and database name. Certain configuration values are pulled from environment variables if they are defined:
 
 ```
-BITCOIND_HOST         # RPC bitcoind host
-BITCOIND_PORT         # RPC bitcoind Port
-BITCOIND_P2P_HOST     # P2P bitcoind Host (will default to BITCOIND_HOST, if specified)
-BITCOIND_P2P_PORT     # P2P bitcoind Port
+BITCOIND_HOST         # RPC zetacoind host
+BITCOIND_PORT         # RPC zetacoind Port
+BITCOIND_P2P_HOST     # P2P zetacoind Host (will default to BITCOIND_HOST, if specified)
+BITCOIND_P2P_PORT     # P2P zetacoind Port
 BITCOIND_USER         # RPC username
 BITCOIND_PASS         # RPC password
-BITCOIND_DATADIR      # bitcoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
+BITCOIND_DATADIR      # zetacoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
 INSIGHT_DB            # Path where to store insight's internal DB. (defaults to $HOME/.insight)
-INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information   
+INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information
 INSIGHT_IGNORE_CACHE  # True to ignore cache of spents in transaction, with more than INSIGHT_SAFE_CONFIRMATIONS confirmations. This is useful for tracking double spents for old transactions.
 ENABLE_MESSAGE_BROKER # if "true" will enable message broker module
 
 ```
 
-Make sure that bitcoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
+Make sure that zetacoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_bitcoin).
 
 In case the network is changed (testnet to livenet or vice versa) levelDB database needs to be deleted. This can be performed running:
 ```util/sync.js -D``` and waiting for *insight* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
 
 ## Synchronization
 
-The initial synchronization process scans the blockchain from the paired bitcoind server to update addresses and balances. *insight* needs one (and only one) trusted bitcoind node to run. This node must have finished downloading the blockchain before running *insight*.
+The initial synchronization process scans the blockchain from the paired zetacoind server to update addresses and balances. *zetachain* needs one (and only one) trusted zetacoind node to run. This node must have finished downloading the blockchain before running *zetachain*.
 
-While *insight* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
+While *zetachain* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
 
-The blockchain can be read from bitcoind's raw `.dat` files or RPC interface. Reading the information from the `.dat` files is much faster so it's the recommended (and default) alternative. `.dat` files are scanned in the default location for each platform (for example, `~/.bitcoin` on Linux). In case a non-standard location is used, it needs to be defined (see the Configuration section). As of June 2014, using `.dat` files the sync process takes 9 hrs. for livenet and 30 mins. for testnet.
+The blockchain can be read from zetacoind's raw `.dat` files or RPC interface. Reading the information from the `.dat` files is much faster so it's the recommended (and default) alternative. `.dat` files are scanned in the default location for each platform (for example, `~/.zetacoin` on Linux). In case a non-standard location is used, it needs to be defined (see the Configuration section). As of June 2014, using `.dat` files the sync process takes 9 hrs. for livenet and 30 mins. for testnet.
 
-While synchronizing the blockchain, *insight* listens for new blocks and transactions relayed by the bitcoind node. Those are also stored on *insight*'s database. In case *insight* is shutdown for a period of time, restarting it will trigger a partial (historic) synchronization of the blockchain. Depending on the size of that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
+While synchronizing the blockchain, *zetachain* listens for new blocks and transactions relayed by the zetacoind node. Those are also stored on *zetachain*'s database. In case *zetachain* is shutdown for a period of time, restarting it will trigger a partial (historic) synchronization of the blockchain. Depending on the size of that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
 
-If bitcoind is shutdown, *insight* needs to be stopped and restarted once bitcoind is restarted.
+If zetacoind is shutdown, *zetachain* needs to be stopped and restarted once zetacoind is restarted.
 
 ### Syncing old blockchain data manualy
 
@@ -122,15 +122,15 @@ If bitcoind is shutdown, *insight* needs to be stopped and restarted once bitcoi
 
 ### DB storage requirement
 
-To store the blockchain and address related information, *insight* uses LevelDB. Two DBs are created: txs and blocks. By default these are stored on
+To store the blockchain and address related information, *zetachain* uses LevelDB. Two DBs are created: txs and blocks. By default these are stored on
   ```~/.insight/```
-Please note that previous version's of Insight-API store that on `<insight's root>/db`
+Please note that previous version's of zetachain-API store that on `<insight's root>/db`
 
 this can be changed on config/config.js. As of June 2014, storing the livenet blockchain takes ~35GB of disk space (2GB for the testnet).
 
 ## Development
 
-To run insight locally for development with grunt:
+To run zetachain locally for development with grunt:
 
 ```$ NODE_ENV=development grunt```
 
@@ -139,12 +139,12 @@ To run the tests
 ```$ grunt test```
 
 
-Contributions and suggestions are welcome at [insight-api github repository](https://github.com/bitpay/insight-api).
+Contributions and suggestions are welcome at [zetachain-api github repository](https://github.com/zbad405/zetachain-api).
 
 
 ## API
 
-By default, insight provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
+By default, zetachain provides a REST API at `/api`, but this prefix is configurable from the var `apiPrefix` in the `config.js` file.
 
 The end-points are:
 
@@ -187,7 +187,7 @@ Sample return:
       ts: 1401226410,
       scriptPubKey: "76a914e50575162795cd77366fb80d728e3216bd52deac88ac",
       amount: 0.001,
-      confirmation: 6    
+      confirmation: 6
       confirmationsFromCache: true,
     }
 ]
@@ -253,7 +253,7 @@ The web socket API is served using [socket.io](http://socket.io) at:
   /socket.io/1/
 ```
 
-Bitcoin network events published are:
+zetacoin network events published are:
 'tx': new transaction received from network. Data will be a app/models/Transaction object.
 Sample output:
 ```
