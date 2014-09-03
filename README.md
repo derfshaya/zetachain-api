@@ -1,4 +1,4 @@
-# *Zetachain API (Zetachain API)*
+# *Zetachain API*
 
 *Zetachain API* is an open-source zetacoin blockchain  REST
 and websocket API. Zetachain API runs in NodeJS and use LevelDB for storage. Zetachain is forked from bitpay's [Insight API](http://github.com/bitpay/insight-api).
