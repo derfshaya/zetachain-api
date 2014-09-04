@@ -60,7 +60,7 @@
     "commander": "*",
     "express": "~3.4.7",
     "glob": "*",
-    "leveldown": "*",
+    "leveldown": "~0.10.0",
     "levelup": "*",
     "moment": "~2.5.0",
     "preconditions": "^1.0.7",
