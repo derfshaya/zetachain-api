@@ -19,19 +19,19 @@ var config = require('./config/config');
 /*jshint multistr: true */
 console.log(
   '\n\
-    ____           _       __    __     ___          _ \n\
-   /  _/___  _____(_)___ _/ /_  / /_   /   |  ____  (_)\n\
-   / // __ \\/ ___/ / __ `/ __ \\/ __/  / /\| \| / __ \\/ / \n\
- _/ // / / (__  ) / /_/ / / / / /_   / ___ |/ /_/ / /  \n\
-/___/_/ /_/____/_/\\__, /_/ /_/\\__/  /_/  |_/ .___/_/   \n\
-                 /____/                   /_/           \n\
+ _____     _             _           _   \n\
+/ _  / ___| |_ __ _  ___| |__   __ _(_)_ __  \n\
+\\// / / _ \\ __/ _` |/ __| \'_ \\ / _` | | \'_ \\ \n\
+ / //\\  __/ || (_| | (__| | | | (_| | | | | | \n\
+/____/\\___|\\__\\__,_|\\___|_| |_|\\__,_|_|_| |_| \n\
+\n \
 \n\t\t\t\t\t\tv%s\n\
 # Configuration:\n\
 \tINSIGHT_NETWORK (Network): %s\n\
 \tINSIGHT_DB (Database Path):  %s\n\
 \tINSIGHT_SAFE_CONFIRMATIONS (Safe Confirmations):  %s\n\
 \tINSIGHT_IGNORE_CACHE (Ignore Cache):  %s\n\
- # Bicoind Connection configuration:\n\
+ # Zetacoind Connection configuration:\n\
 \tRPC Username: %s\t\tBITCOIND_USER\n\
 \tRPC Password: %s\tBITCOIND_PASS\n\
 \tRPC Protocol: %s\t\tBITCOIND_PROTO\n\
