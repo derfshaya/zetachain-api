@@ -1,5 +1,8 @@
 # *Zetachain API*
 
+*Note:*
+Zetachain API is currently in beta. More updates will be performed regularly. Please check back frequently for updates.
+
 *Zetachain API* is an open-source zetacoin blockchain  REST
 and websocket API. Zetachain API runs in NodeJS and use LevelDB for storage. Zetachain is forked from bitpay's [Insight API](http://github.com/bitpay/insight-api).
 
@@ -8,11 +11,6 @@ require certain information from the blockchain that zetacoind does not provide.
 
 A blockchain explorer front-end have been developed to top of *Zetachain API*, it can
 be downloaded at [Github Zetachain Repository](https://github.com/zbad405/zetachain).
-
-## IMPORTANT: Upgrading from  v0.1 to v0.2
-In order to optimize some queries, the key-value layout in Level DB has been changed.
-If you are running v0.1.x, a total resync needs to be done, running `$ util/sync.js -D`. This
-needs to run while *insight-api* is shut off. See details at: **Synchronization**.
 
 
 ## IMPORTANT: v0.2 Caching schema
@@ -77,13 +75,13 @@ zetacoind must be running and must have finished downloading the blockchain **be
 All configuration is specified in the [config](config/) folder, particularly the [config.js](config/config.js) file. There you can specify your application name and database name. Certain configuration values are pulled from environment variables if they are defined:
 
 ```
-BITCOIND_HOST         # RPC zetacoind host
-BITCOIND_PORT         # RPC zetacoind Port
-BITCOIND_P2P_HOST     # P2P zetacoind Host (will default to BITCOIND_HOST, if specified)
-BITCOIND_P2P_PORT     # P2P zetacoind Port
-BITCOIND_USER         # RPC username
-BITCOIND_PASS         # RPC password
-BITCOIND_DATADIR      # zetacoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
+ZETACOIND_HOST         # RPC zetacoind host
+ZETACOIND_PORT         # RPC zetacoind Port
+ZETACOIND_P2P_HOST     # P2P zetacoind Host (will default to ZETACOIND_HOST, if specified)
+ZETACOIND_P2P_PORT     # P2P zetacoind Port
+ZETACOIND_USER         # RPC username
+ZETACOIND_PASS         # RPC password
+ZETACOIND_DATADIR      # zetacoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
 INSIGHT_DB            # Path where to store insight's internal DB. (defaults to $HOME/.insight)
 INSIGHT_SAFE_CONFIRMATIONS=6  # Nr. of confirmation needed to start caching transaction information

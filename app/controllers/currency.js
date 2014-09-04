@@ -5,8 +5,8 @@ var config = require('../../config/config');
 // Set the initial vars
 var timestamp = +new Date(),
     delay = config.currencyRefresh * 60000,
-    zetaRate = 0;
-    bitstampRate = 0;
+    zetaRate = 0,
+    bitstampRate = 0,
     conversionRate = 0;
 
 exports.index = function(req, res) {
