@@ -35,6 +35,33 @@ exports.transaction = function(req, res, next, txid) {
   });
 };
 
+// [TESTING METHODS]
+// get transaction summary (really need to cache this thing)
+// value derived from a list of input/output sums
+// can store in simple map matching sender/receiver address with value
+// sans fees
+exports.simpleTransaction = function (req, res, next, txidsimple) {
+
+    tDb.fromIdInfoSimple(txidsimple, function(err, txInfo) {
+        if (err || ! txInfo)
+          return common.handleErrors(err, res);
+        else {
+          common.getBlockHeightAndConfirmations(txInfo.blockhash, function(err, blockHeight, confirmations) {
+            if (err)
+            return common.handleErrors(err, res); // TODO: JSend error
+            req.transaction = {
+              time_utc: common.getISODateString(txInfo.time),
+              tx: txInfo.txid,
+              block_nb: blockHeight,
+              value: 0,
+              confirmations: confirmations
+            };
+            return next();
+          });
+        }
+    });
+}
+
 
 /**
  * Show transaction

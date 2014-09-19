@@ -27,6 +27,10 @@ module.exports = function(app) {
   app.get(apiPrefix + '/txs', transactions.list);
   app.post(apiPrefix + '/tx/send', transactions.send);
 
+  // Test Simple Transaction output (Blockr/JSend Style)
+  app.get(apiPrefix + '/tx/info/:txidsimple/simple', transactions.show);
+  app.param('txidsimple', transactions.simpleTransaction);
+
   // Address routes
   var addresses = require('../app/controllers/addresses');
   app.get(apiPrefix + '/addr/:addr', addresses.show);
