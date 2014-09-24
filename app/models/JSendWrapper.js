@@ -29,7 +29,7 @@ JSendWrapper.prototype.getObj = function() {
     'status': this.status,
     'data': this.data,
     'code': this.code,
-    'message': this.message;
+    'message': this.message
   };
 };
 
