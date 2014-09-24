@@ -28,7 +28,7 @@ module.exports = function(app) {
   app.post(apiPrefix + '/tx/send', transactions.send);
 
   // Test Simple Transaction output (Blockr/JSend Style)
-  app.get(apiPrefix + '/tx/info/:txidsimple/simple', transactions.show);
+  app.get(apiPrefix + '/tx/info/:txidsimple/simple', transactions.showJSend);
   app.param('txidsimple', transactions.simpleTransaction);
 
   // Address routes

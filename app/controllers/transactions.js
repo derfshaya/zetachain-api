@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var Address     = require('../models/Address');
-var async       = require('async');
-var common      = require('./common');
+var Address       = require('../models/Address');
+var JSendWrapper  = require('../models/JSendWrapper');
+var async         = require('async');
+var common        = require('./common');
 
 var Rpc           = require('../../lib/Rpc');
 
@@ -44,11 +45,11 @@ exports.simpleTransaction = function (req, res, next, txidsimple) {
 
     tDb.fromIdInfoSimple(txidsimple, function(err, txInfo) {
         if (err || ! txInfo)
-          return common.handleErrors(err, res);
+          return common.handleErrorsJSend(err, res);
         else {
           common.getBlockHeightAndConfirmations(txInfo.blockhash, function(err, blockHeight, confirmations) {
             if (err)
-            return common.handleErrors(err, res); // TODO: JSend error
+              return common.handleErrorsJSend(err, res);
             req.transaction = {
               time_utc: common.getISODateString(txInfo.time),
               tx: txInfo.txid,
@@ -70,6 +71,16 @@ exports.show = function(req, res) {
 
   if (req.transaction) {
     res.jsonp(req.transaction);
+  }
+};
+
+/**
+ * Show transaction with JSend format
+ */
+exports.showJSend = function(req, res) {
+
+  if (req.transaction) {
+    res.jsonp(new JSendWrapper(req.transaction));
   }
 };
 

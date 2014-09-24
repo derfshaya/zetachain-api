@@ -1,6 +1,7 @@
 'use strict';
 
 /* Util dependencies */
+var JSendWrapper  = require('../models/JSendWrapper');
 var bDb = require('../../lib/BlockDb').default();
 
 exports.handleErrors = function (err, res) {
@@ -16,6 +17,20 @@ exports.handleErrors = function (err, res) {
     res.status(404).send('Not found');
   }
 };
+
+exports.handleErrorsJSend = function (err, res) {
+  if (err) {
+    if (err.code) {
+      res.jsonp(new JSendWrapper(400, err.message + '. Code:' + err.code));
+    }
+    else {
+      res.jsonp(new JSendWrapper(503, err.message));
+    }
+  }
+  else {
+    res.jsonp(new JSendWrapper(404, "No records found"));
+  }
+}
 
 exports.getISODateString = function(unixTime) {
     return new Date(unixTime*1000).toISOString();
