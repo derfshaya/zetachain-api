@@ -26,9 +26,9 @@ function JSendWrapper(data, code, message) {
 
 JSendWrapper.prototype.getObj = function() {
   return {
-    'status': this.status;
-    'data': this.data;
-    'code': this.code;
+    'status': this.status,
+    'data': this.data,
+    'code': this.code,
     'message': this.message;
   };
 };
