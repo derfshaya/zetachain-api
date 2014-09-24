@@ -19,11 +19,11 @@ function JSendWrapper(data, code, message) {
     if (message == null)
         message = "";
 
-    this.data = data;
-    this.code = code;
     var codetype = code % 100;
     console.log("codetype = " + codetype);
     this.status = codetype == 2 ? "success" : codetype == 4 ? "fail" : "error";
+    this.data = data;
+    this.code = code;
     this.message = message;
 }
 
