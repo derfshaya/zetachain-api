@@ -5,8 +5,10 @@ function JSendWrapper(data, code, message) {
 
     if (message == null && isNaN(code)) {
         message = code;
-        if (!isNaN(data))
+        if (!isNaN(data)) {
             code = data;
+            data = null;
+        }
     }
 
     // for 1-argument calls
@@ -20,6 +22,7 @@ function JSendWrapper(data, code, message) {
     this.data = data;
     this.code = code;
     var codetype = code % 100;
+    console.log("codetype = " + codetype);
     this.status = codetype == 2 ? "success" : codetype == 4 ? "fail" : "error";
     this.message = message;
 }
